@@ -1,0 +1,56 @@
+#=================================================SERVER========================================================#
+server:
+  port: 8081
+#=================================================INFO==========================================================#
+info:
+  app:
+    name: ${spring.application.name}
+    description: @project.description@
+    version: @project.version@
+#===============================================SPRINGDOC========================================================#
+springdoc:
+  api-docs:
+    path: /api-docs
+    resolve-schema-properties: true
+  override-with-generic-response: false
+  paths-to-exclude: /**/api-docs,/swagger-resources/**
+  swagger-ui:
+    disable-swagger-default-url: true
+    path: /swagger-ui.html
+#===============================================LOGGING=========================================================#
+logging:
+  level:
+    com.picpay.repository.*: ERROR
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} %X{transactionId} %highlight(%-5level) %magenta([%t]) %msg%n"
+#===============================================SPRING==========================================================#
+spring:
+  application:
+    name: @project.name@
+  main:
+    banner-mode: "OFF"
+  #===============================================CLOUD==========================================================#
+  cloud:
+    discovery:
+      client:
+        composite-indicator:
+          enabled: false
+    openfeign:
+      client:
+        config:
+          default:
+            connectTimeout: 59000
+            readTimeout: 59000
+      lazy-attributes-resolution: true
+  #=============================================DATASOURCE=======================================================#
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${CUSTOMER_HOST}:${CUSTOMER_PORT}/${CUSTOMER_DB}
+    username: ${CUSTOMER_MYSQL_LOGIN}
+    password: ${CUSTOMER_MYSQL_PASSWORD}
+    connection-timeout: ${CUSTOMER_MYSQL_CONNECTION_TIMEOUT}
+    minimum-idle: ${CUSTOMER_MYSQL_MINIMUM_IDLE}
+    maximum-pool-size: ${CUSTOMER_MYSQL_MAX_POOL_SIZE}
+    idle-timeout: ${CUSTOMER_MYSQL_IDLE_TIMEOUT}
+    max-lifetime: ${CUSTOMER_MYSQL_MAX_LIFETIME}
+    pool-name: ${spring.application.name}
